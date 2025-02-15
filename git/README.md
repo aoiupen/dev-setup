@@ -34,4 +34,9 @@ git add .
 git commit -m "커밋메세지"
 git push origin main
 # git push origin main --force
+
+# repo명을 변경할 경우
+  - git remote set-url origin https://github.com/<userID>/<RepoName>.git
+  - git remote -v 시 변경이 안되어있을 경우
+      - git remote rm origin 후 git remote add https://github.com/<userID>/<RepoName>.git
 ```
