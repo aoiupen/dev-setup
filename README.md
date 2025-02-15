@@ -11,7 +11,10 @@
 ```powershell
 pip uninstall torch torchaudio torchvision
 ```
-Pytorch GPU 버전명은 마지막에 +cu124 같은 것이 붙는데, Cuda 12.4 버전과 호환된다는 뜻이다
+
+**torch==2.6.0+cu124**의 의미
+- 2.6.0 → PyTorch 버전
+- +cu124 → CUDA 12.4 버전을 지원하는 빌드
 
 ```powershell
 torch==2.6.0+cu124
