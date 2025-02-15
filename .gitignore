@@ -167,5 +167,23 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+##
+
 # PyPI configuration file
 .pypirc
+
+# Windows Environment file
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+
+# Mac Environment file
+.DS_Store
+
+# IDE settings
+.vscode/
+.idea/
+
+# Virtual Environment
+venv/
+.env/
