@@ -1,4 +1,4 @@
-## Docker 사용 가이드
+## Docker 설치 및 기본 명령어 가이드 (Biginner)
 
 ### Docker Desktop 설치
 
@@ -120,3 +120,81 @@ docker build --build-arg OS_TYPE=linux -t myapp .
 # 최종 명령어
 docker build --build-arg OS_TYPE=windows -t ai-triangle-validator .
 ```
+---
+
+## Docker 환경 설정 및 배포 (Intermediate)
+
+### 1. Dockerfile로 이미지 정의
+
+```docker
+# 1. Python 베이스 이미지 지정
+FROM python:3.10.11-slim  
+
+# 2. 작업 디렉토리 설정
+WORKDIR /app  
+
+# 3. 의존성 설치 (캐싱 최적화)
+COPY requirements.txt .  
+RUN pip install --no-cache-dir -r requirements.txt  
+
+# 4. 소스 코드 복사
+COPY . .  
+
+# 5. 컨테이너 실행 명령
+CMD ["python", "app.py"]
+```
+
+### 2. .devcontainer/devcontainer.json 생성
+VS Code Remote - Containers 활용 (선택)
+
+```json
+{
+  "name": "Python Dev Container",
+  "dockerFile": "../Dockerfile",
+  "extensions": ["ms-python.python"],
+  "settings": {
+    "python.defaultInterpreterPath": "/usr/local/bin/python"
+  }
+}
+```
+
+### 3. docker-compose.yml로 멀티 컨테이너 정의 (선택)
+
+```docker
+version: "3.8"
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes: # 배포시 volume 삭제해야
+      - .:/app  # 개발 중 코드 변경이 즉시 반영됨
+    environment:
+      - FLASK_ENV=development
+    command: python app.py
+```
+
+### 4. 실행
+
+docker-compose up —build-d 또는 docker run으로 실행
+
+### 5. docker-compose.prod.yml 작성 (배포용)
+
+```docker
+version: "3.8"
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+    command: python app.py
+```
+
+### 6. 테스트 및 배포
+
+```docker
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+```
+
