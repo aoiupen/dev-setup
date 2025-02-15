@@ -3,13 +3,14 @@
 ### Docker Desktop 설치
 
 - Recommended 선택 → 설치 완료 후 재부팅
-- WSL2 자동 설치 → 콘솔창에 `Linux용 Windows 하위 시스템 2.3.26 설치되었습니다`와 같은 메시지가 나타날 수 있
+- 설치 후 WSL2에 대한 설정 필요 (수정중)
 
 ### Dockerfile에 사용할 Python 이미지 정보 확인
 
 ```powershell
 docker manifest inspect python:3.10.11-slim
 ```
+- 특정 이미지의 메타데이터(아키텍처, OS)를 확
 - 이후 Dockerfile (확장자 없음)을 생성하여 필요한 설정을 추가
 - slim은 경량 버전
 - python:3.10.11-slim-bookworm의 bookworm은 Debian 버전에 따른 이름
@@ -48,8 +49,8 @@ docker run <이미지 이름>:<태그>
 docker run -d --name <컨테이너 이름 지정> <이미지 이름>:<태그>
 # ex) docker run my-python-app:latest
 ```
-- -d : 컨테이너를 백그라운드에서 실행 (터미널을 차지하지 않음. Ctrl+C로도 종료되지 않음. docker ps로 확)
-- --name : 컨테이너 이름 지정 옵션. 미지정시 자동 생
+- -d : 컨테이너를 백그라운드에서 실행 (터미널을 차지하지 않음. Ctrl+C로도 종료되지 않음. docker ps로 실행 여부 확인 가능)
+- --name : 컨테이너 이름 지정 옵션. 미지정시 자동 생성
 
 ### Docker 명령어 정리
 
@@ -80,8 +81,8 @@ docker rmi <이미지 이름>:<태그>  # 이미지 삭제
 
 ### 업로드/다운로드 순서
 
-- 업로드: Docker build → (Hub에)Login → Tag → (Reg에)Push 
-- 다운로드: Login → (Hub에서)Pull → Run
+- **업로드:** `docker build` → `docker login` → `docker tag` → `docker push`  
+- **다운로드:** `docker login` → `docker pull` → `docker run`
 
 ### Docker Image 내 취약점 해결
 
@@ -104,10 +105,9 @@ COPY . .
 CMD ["python", "app.py"]
 ```
 docker build -t myapp .
-- From은 현재 로컬에 있는 이미지 사용하겠다는 뜻
-- 로컬에 해당 이미지가 없으면 docker pull python:3.10-slim 자동 실행
+- From은 로컬에 있는 파일을 사용하되, 없으면 자동으로 Pull 실행하겠다는 뜻
 
-### OS 별 Docker 빌드
+### OS 별 Docker 빌드 (수정중)
 
 ```powershell
 docker build --build-arg OS_TYPE=windows -t myapp .
