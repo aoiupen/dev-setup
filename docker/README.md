@@ -8,9 +8,11 @@
 ### Dockerfile에 사용할 Python 이미지 정보 확인
 
 ```powershell
+# 특정 이미지의 메타데이터(아키텍처, OS)를 확인
 docker manifest inspect python:3.10.11-slim
+# 또는 원하는 Python 버전 이미지 검색
+docker search python
 ```
-- 특정 이미지의 메타데이터(아키텍처, OS)를 확
 - 이후 Dockerfile (확장자 없음)을 생성하여 필요한 설정을 추가
 - slim은 경량 버전
 - python:3.10.11-slim-bookworm의 bookworm은 Debian 버전에 따른 이름
@@ -23,6 +25,7 @@ docker build -t <이미지 이름>[:<태그>] <Dockerfile 경로>
 ```
 - -t : --tag의 단축형. 이미지 이름과 태그를 지정하는 옵션
 - latest가 기본 태그
+- . 은 현재 디렉토리 경로
 
 ### Docker 태깅
 ```powershell
@@ -30,13 +33,14 @@ docker tag <이미지명>:<버전> <hubID>/<이미지명>:<버전>
 ```
 - <이미지명>:<버전> → <hubID>/<이미지명>:<버전>으로 태그 변경
 - Docker Hub 업로드용 형식
-- 태그는 **별칭(alias)**과 비슷한 개념이며, 기존 이미지를 수정하는 것이 아님
+- 태그는 **별칭(alias)**과 비슷한 개념. 기존 이미지 수정은 아님
+- latest, v1.0, production 등을 사용용
 
 ### Docker Hub에 이미지 업로드
 ```powershell
 docker push hubID/myApp:v1.0
 ```
-- Docker Hub에 로그인 필요 (docker login)
+- Docker Hub에 로그인 필요
 
 ### Docker 컨테이너 생성
 
@@ -67,10 +71,10 @@ docker rm <컨테이너 ID>     # 컨테이너 삭제
 docker rmi <이미지 이름>:<태그>  # 이미지 삭제
 ```
 
-### Docker Image vs Container
+### Docker Image vs Container 비유
 
-- Docker Image = 템플릿
-- Docker Container = 인스턴스
+- Docker Image : 클래스 (청사진, 설계도)
+- Docker Container : 인스턴스 (실행된 프로세스)
 
 ### Docker Image 배포
 
